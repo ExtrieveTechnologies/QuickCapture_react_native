@@ -1,18 +1,78 @@
-import * as React from 'react';
-
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'quickcapture';
+import React, { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  Alert,
+  ScrollView,
+  Image,
+} from 'react-native';
+import { startCapture, init, buildPdfForLastCapture } from 'quickcapture';
+import FileViewer from 'react-native-file-viewer';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const [images, setImages] = useState([]);
 
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+  useEffect(() => {
+    init();
   }, []);
 
+  const handleStartCapture = () => {
+    startCapture()
+      .then((resultString) => {
+        const result = JSON.parse(resultString);
+        if (result.fileCollection && result.fileCollection.length) {
+          setImages(result.fileCollection);
+        } else {
+          Alert.alert('No images', 'No images were captured');
+        }
+      })
+      .catch((error) => {
+        console.error('Error starting capture:', error);
+        Alert.alert('Capture Error', `Error: ${error.message}`);
+      });
+  };
+
+  const handleBuildPdf = async () => {
+    try {
+      // Your logic to build a PDF and get the file path
+      console.log('Building PDF...');
+      const pdfPath = await buildPdfForLastCapture(); // Assume buildPdf is a function that builds the PDF and returns the file path
+
+      // Open the PDF with the default PDF viewer
+      FileViewer.open(pdfPath, { mimeType: 'application/pdf' })
+        .then(() => {
+          // Success
+          console.log('PDF opened successfully');
+        })
+        .catch((error) => {
+          // Error
+          console.error('Error opening PDF:', error);
+        });
+      Linking.openURL(`file://${pdfPath}`).catch((err) =>
+        console.error('Failed to open file:', err)
+      );
+    } catch (error) {
+      console.error('Error building PDF:', error);
+    }
+  };
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>Test app</Text>
+      <Button title="Start Capture" onPress={handleStartCapture} />
+      <ScrollView contentContainerStyle={styles.imageGrid}>
+        {images.map((imagePath, index) => (
+          <Image
+            key={index}
+            source={{ uri: `file://${imagePath}` }}
+            style={styles.image}
+          />
+        ))}
+      </ScrollView>
+      {images.length > 0 && (
+        <Button title="Build PDF" onPress={handleBuildPdf} />
+      )}
     </View>
   );
 }
@@ -20,12 +80,19 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
   },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
+  imageGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    margin: 5,
   },
 });

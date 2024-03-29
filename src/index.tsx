@@ -17,6 +17,35 @@ const Quickcapture = NativeModules.Quickcapture
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return Quickcapture.multiply(a, b);
+export function init() {
+  Quickcapture.init();
+  return true;
+}
+
+export function startCapture() {
+  return new Promise((resolve) => {
+    Quickcapture.startCapture({ saveToGallery: true })
+      .then((imagePath) => {
+        console.log(imagePath);
+        resolve(imagePath); // Resolve the outer promise with the image path
+      })
+      .catch((error) => {
+        console.error(error);
+        eject(error); // Reject the outer promise with the error
+      });
+  });
+}
+
+export function buildPdfForLastCapture() {
+  return new Promise((resolve) => {
+    Quickcapture.buildPdfFileForLastCaptureSet()
+      .then((pdfFilePath) => {
+        console.log(pdfFilePath);
+        resolve(pdfFilePath); // Resolve the outer promise with the image path
+      })
+      .catch((error) => {
+        console.error(error);
+        eject(error); // Reject the outer promise with the error
+      });
+  });
 }
