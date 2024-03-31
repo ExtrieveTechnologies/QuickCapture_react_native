@@ -8,7 +8,11 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import { startCapture, init, buildPdfForLastCapture } from 'quickcapture';
+import {
+  startCapture,
+  init,
+  buildPdfForLastCapture,
+} from 'quickcapture_react_native';
 import FileViewer from 'react-native-file-viewer';
 
 export default function App() {
