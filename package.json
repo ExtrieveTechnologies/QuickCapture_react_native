@@ -1,6 +1,6 @@
 {
   "name": "@extrieve_technologies/quickcapture_react_native",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A react native port for QuickCapture AI Document scanning SDK",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
