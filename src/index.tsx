@@ -25,13 +25,13 @@ export function init() {
 export function startCapture() {
   return new Promise((resolve) => {
     Quickcapture.startCapture({ saveToGallery: true })
-      .then((imagePath) => {
+      .then((imagePath: string) => {
         console.log(imagePath);
         resolve(imagePath); // Resolve the outer promise with the image path
       })
-      .catch((error) => {
+      .catch((error: Error) => {
         console.error(error);
-        eject(error); // Reject the outer promise with the error
+        //reject(error); // Reject the outer promise with the error
       });
   });
 }
@@ -39,13 +39,13 @@ export function startCapture() {
 export function buildPdfForLastCapture() {
   return new Promise((resolve) => {
     Quickcapture.buildPdfFileForLastCaptureSet()
-      .then((pdfFilePath) => {
+      .then((pdfFilePath: string) => {
         console.log(pdfFilePath);
         resolve(pdfFilePath); // Resolve the outer promise with the image path
       })
-      .catch((error) => {
+      .catch((error: Error) => {
         console.error(error);
-        eject(error); // Reject the outer promise with the error
+        //eject(error); // Reject the outer promise with the error
       });
   });
 }
