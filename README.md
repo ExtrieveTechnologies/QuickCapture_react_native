@@ -11,31 +11,33 @@ Follow these steps to install the Quickcapture plugin using either npm or Yarn, 
 **Using npm**
 
 1. Add the Package:
-	```bash
-	npm install @extrieve_technologies/quickcapture_react_native
-	```
+```bash
+npm install @extrieve_technologies/quickcapture_react_native
+```
 2. Link the Package:
 If you are using React Native 0.60 or above, autolinking will handle the rest. For iOS, you must run:
-	```bash
-	cd ios && pod  install && cd..
-	```
+```bash
+cd ios && pod  install && cd..
+```
 
 3. Rebuild Your Application:
 
-	Rebuild your application to ensure all native dependencies are properly linked.
-	For iOS:
-	```bash
-	npx react-native run-ios
-	```
-	For Android:
-	```bash
-	npx react-native run-android
-	```
+Rebuild your application to ensure all native dependencies are properly linked.
+For iOS:
+```bash
+npx react-native run-ios
+```
+For Android:
+
+```bash
+npx react-native run-android
+```
 **Using Yarn**
+
 1. Add the Package:
-	```bash
-	yarn add @extrieve_technologies/quickcapture_react_native
-	```
+```bash
+yarn add @extrieve_technologies/quickcapture_react_native
+```
 
 ## Usage
 1. First, import the necessary modules and initialize quickcapture:
